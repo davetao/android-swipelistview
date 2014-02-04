@@ -220,6 +220,10 @@ public class SwipeListView extends ListView {
         setOnScrollListener(touchListener.makeScrollListener());
     }
 
+    public boolean isOpen() {
+        return touchListener.isOpen();
+    }
+
     /**
      * Recycle cell. This method should be called from getView in Adapter when use SWIPE_ACTION_CHOICE
      *

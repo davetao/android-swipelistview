@@ -119,6 +119,10 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
         this.swipeListView = swipeListView;
     }
 
+    public boolean isOpen() {
+        return opened.size() > 0;
+    }
+
     /**
      * Sets current item's parent view
      *
