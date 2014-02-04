@@ -120,7 +120,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
     }
 
     public boolean isOpen() {
-        return opened.size() > 0;
+        return opened.indexOf(true) > -1;
     }
 
     /**
