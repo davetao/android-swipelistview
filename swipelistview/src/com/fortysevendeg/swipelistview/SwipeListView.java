@@ -35,7 +35,7 @@ import java.util.List;
 /**
  * ListView subclass that provides the swipe functionality
  */
-public class SwipeListView extends ListView {
+public class SwipeListView extends QuickReturnListView {
 
     /**
      * Used when user want change swipe list mode on some rows
@@ -217,7 +217,15 @@ public class SwipeListView extends ListView {
         touchListener.setSwipeDrawableChecked(swipeDrawableChecked);
         touchListener.setSwipeDrawableUnchecked(swipeDrawableUnchecked);
         setOnTouchListener(touchListener);
-        setOnScrollListener(touchListener.makeScrollListener());
+
+        setupLayoutObserver();
+        setOnScrollListener(touchListener.makeScrollListener(this));
+    }
+
+    @Override
+    public void setup() {
+        //super.setup();
+        setupLayoutObserver();
     }
 
     public boolean isOpen() {

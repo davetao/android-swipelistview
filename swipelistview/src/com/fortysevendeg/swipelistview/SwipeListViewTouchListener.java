@@ -621,7 +621,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
      *
      * @return OnScrollListener
      */
-    public AbsListView.OnScrollListener makeScrollListener() {
+    public AbsListView.OnScrollListener makeScrollListener(final SwipeListView obj) {
         return new AbsListView.OnScrollListener() {
 
             private boolean isFirstItem = false;
@@ -675,6 +675,8 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
                         swipeListView.onLastListItem();
                     }
                 }
+
+                obj.handleScrolling(firstVisibleItem);
             }
         };
     }
