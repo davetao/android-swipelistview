@@ -18,6 +18,7 @@ package com.fortysevendeg.swipelistview;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.TranslateAnimation;
@@ -111,16 +112,16 @@ public class QuickReturnListView extends ListView {
 
         final QuickReturnListView listView = this;
 
-        if(firstVisibleItem == 0) {
-            this.stickyView.setTranslationY(0);
-            return;
-        }
-
         mScrollY = 0;
         int translationY = 0;
 
         if (listView.scrollYIsComputed()) {
             mScrollY = listView.getComputedScrollY();
+        }
+
+        if(mScrollY == 0) {
+            this.stickyView.setTranslationY(0);
+            return;
         }
 
         int rawY = this.headerPlaceholder.getTop() - Math.min( mCachedVerticalScrollRange - listView.getHeight(), mScrollY);

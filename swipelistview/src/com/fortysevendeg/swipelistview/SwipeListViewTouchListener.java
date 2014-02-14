@@ -651,6 +651,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
                 if (isFirstItem) {
                     boolean onSecondItemList = firstVisibleItem == 1;
                     if (onSecondItemList) {
