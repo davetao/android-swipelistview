@@ -19,6 +19,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -100,7 +101,6 @@ public class QuickReturnListView extends ListView {
                             if(!scrollIsComputed) {
                                 listView.computeScrollY();
                                 mQuickReturnHeight = stickyView.getMeasuredHeight();
-                                headerPlaceholder.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int)mQuickReturnHeight));
                                 mCachedVerticalScrollRange = listView.getListHeight();
                             }
                         }
@@ -193,7 +193,6 @@ public class QuickReturnListView extends ListView {
                     MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
             mItemOffsetY[i] = mHeight;
             mHeight += view.getMeasuredHeight();
-//            System.out.println(mHeight);
         }
         scrollIsComputed = true;
     }
