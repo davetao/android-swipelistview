@@ -20,9 +20,11 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.TranslateAnimation;
 import android.widget.AbsListView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 public class QuickReturnListView extends ListView {
@@ -95,9 +97,12 @@ public class QuickReturnListView extends ListView {
                     new ViewTreeObserver.OnGlobalLayoutListener() {
                         @Override
                         public void onGlobalLayout() {
-                            listView.computeScrollY();
-                            mQuickReturnHeight = stickyView.getMeasuredHeight();
-                            mCachedVerticalScrollRange = listView.getListHeight();
+                            if(!scrollIsComputed) {
+                                listView.computeScrollY();
+                                mQuickReturnHeight = stickyView.getMeasuredHeight();
+                                headerPlaceholder.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int)mQuickReturnHeight));
+                                mCachedVerticalScrollRange = listView.getListHeight();
+                            }
                         }
                     });
 
@@ -172,9 +177,15 @@ public class QuickReturnListView extends ListView {
     public void computeScrollY() {
         mHeight = 0;
         mItemCount = getAdapter().getCount();
+
+        if(mItemCount < 1) {
+            return;
+        }
+
         if (mItemOffsetY == null) {
             mItemOffsetY = new int[mItemCount];
         }
+
         for (int i = 0; i < mItemCount; ++i) {
             View view = getAdapter().getView(i, null, this);
             view.measure(
@@ -182,7 +193,7 @@ public class QuickReturnListView extends ListView {
                     MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
             mItemOffsetY[i] = mHeight;
             mHeight += view.getMeasuredHeight();
-            //System.out.println(mHeight);
+//            System.out.println(mHeight);
         }
         scrollIsComputed = true;
     }
