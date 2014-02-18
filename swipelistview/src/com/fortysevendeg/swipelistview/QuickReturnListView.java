@@ -75,13 +75,6 @@ public class QuickReturnListView extends ListView {
         });
     }
 
-    public void setOffsetLeft(int nothing) { }
-    public void setSwipeListViewListener(BaseSwipeListViewListener listener) { }
-    public void closeOpenedItems() { }
-    public boolean isOpen() {
-        return false;
-    }
-
     public void setStickyView(View stickyView) {
         this.stickyView = stickyView;
     }
@@ -91,7 +84,7 @@ public class QuickReturnListView extends ListView {
     }
 
     public void setupLayoutObserver() {
-
+        scrollIsComputed = false;
         if(stickyView != null) {
             final QuickReturnListView listView = this;
             listView.getViewTreeObserver().addOnGlobalLayoutListener(
@@ -182,15 +175,13 @@ public class QuickReturnListView extends ListView {
             return;
         }
 
-        if (mItemOffsetY == null) {
-            mItemOffsetY = new int[mItemCount];
-        }
-
+        mItemOffsetY = new int[mItemCount];
+        View view = getAdapter().getView(0, null, this);
         for (int i = 0; i < mItemCount; ++i) {
-            View view = getAdapter().getView(i, null, this);
-            view.measure(
-                    MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
-                    MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+            if(i < 2) {
+                view = getAdapter().getView(i, null, this);
+                view.measure( MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED), MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+            }
             mItemOffsetY[i] = mHeight;
             mHeight += view.getMeasuredHeight();
         }
