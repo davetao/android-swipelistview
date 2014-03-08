@@ -18,15 +18,13 @@ package com.fortysevendeg.swipelistview;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.TranslateAnimation;
 import android.widget.AbsListView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
+
+import java.util.HashMap;
 
 public class QuickReturnListView extends ListView {
 
@@ -34,6 +32,10 @@ public class QuickReturnListView extends ListView {
     private int mItemOffsetY[];
     private boolean scrollIsComputed = false;
     private int mHeight;
+
+    private HashMap<Integer, Integer> headerHeights;
+
+    private int additionalHeightAddtion = 0;
 
     /**/
     private int mCachedVerticalScrollRange;
@@ -60,6 +62,14 @@ public class QuickReturnListView extends ListView {
 
     public QuickReturnListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+    }
+
+    public int getAdditionalHeightAddtion() {
+        return additionalHeightAddtion;
+    }
+
+    public void setAdditionalHeightAddtion(int additionalHeightAddtion) {
+        this.additionalHeightAddtion = additionalHeightAddtion;
     }
 
     public void setup() {
@@ -177,14 +187,22 @@ public class QuickReturnListView extends ListView {
 
         mItemOffsetY = new int[mItemCount];
         View view = getAdapter().getView(0, null, this);
+
         for (int i = 0; i < mItemCount; ++i) {
             if(i < 2) {
                 view = getAdapter().getView(i, null, this);
                 view.measure( MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED), MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
             }
+
             mItemOffsetY[i] = mHeight;
-            mHeight += view.getMeasuredHeight();
+
+            if(headerHeights != null && headerHeights.get(i) != null) {
+                mHeight += view.getMeasuredHeight() + headerHeights.get(i);
+            }
+            else
+                mHeight += view.getMeasuredHeight();
         }
+
         scrollIsComputed = true;
     }
 
@@ -200,5 +218,9 @@ public class QuickReturnListView extends ListView {
         nItemY = view.getTop();
         nScrollY = mItemOffsetY[pos] - nItemY;
         return nScrollY;
+    }
+
+    public void setHeaderHeights(HashMap<Integer, Integer> headerHeights) {
+        this.headerHeights = headerHeights;
     }
 }
