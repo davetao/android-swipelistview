@@ -188,8 +188,11 @@ public class QuickReturnListView extends ListView {
         mItemOffsetY = new int[mItemCount];
         View view = getAdapter().getView(0, null, this);
 
+        int standard_height = 0;
+
         for (int i = 0; i < mItemCount; ++i) {
-            if(i < 2) {
+            if((headerHeights != null && i < 8) || i < 3) {
+                // need to measure more cells when there are section headers
                 view = getAdapter().getView(i, null, this);
                 view.measure( MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED), MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
             }
@@ -199,8 +202,9 @@ public class QuickReturnListView extends ListView {
             if(headerHeights != null && headerHeights.get(i) != null) {
                 mHeight += view.getMeasuredHeight() + headerHeights.get(i);
             }
-            else
+            else {
                 mHeight += view.getMeasuredHeight();
+            }
         }
 
         scrollIsComputed = true;
