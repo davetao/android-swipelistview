@@ -64,8 +64,9 @@ public class QuickReturnListView extends ListView {
         super(context, attrs, defStyle);
     }
 
-    public int getAdditionalHeightAddtion() {
-        return additionalHeightAddtion;
+    @Override
+    public void setSelection(int position) {
+        super.setSelection(position);
     }
 
     public void setAdditionalHeightAddtion(int additionalHeightAddtion) {
@@ -170,6 +171,10 @@ public class QuickReturnListView extends ListView {
                 }
                 break;
         }
+
+        if(listView.getSelectedItemPosition() > 0)
+            translationY = 0;
+
         stickyView.setTranslationY(translationY);
     }
 
@@ -187,8 +192,6 @@ public class QuickReturnListView extends ListView {
 
         mItemOffsetY = new int[mItemCount];
         View view = getAdapter().getView(0, null, this);
-
-        int standard_height = 0;
 
         for (int i = 0; i < mItemCount; ++i) {
             if((headerHeights != null && i < 8) || i < 3) {
