@@ -4,13 +4,13 @@ buildscript {
   }
 
   dependencies {
-    classpath 'com.android.tools.build:gradle:0.5.+'
+    classpath 'com.android.tools.build:gradle:0.10.0'
   }
 }
 
 allprojects {
   group = 'com.fortysevendeg.swipelistview'
-  version = '1.0-SNAPSHOT'
+  // version = '1.0-SNAPSHOT'
 
   repositories {
     mavenCentral()

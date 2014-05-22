@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.AbsListView;
 
 import java.util.List;
 
@@ -688,6 +689,13 @@ public class SwipeListView extends QuickReturnListView {
      */
     public void closeOpenedItems() {
         touchListener.closeOpenedItems();
+    }
+
+    /*
+     * Get an instance of a SwipeListView OnScrollListener
+     */
+    public AbsListView.OnScrollListener makeScrollListener() {
+        return touchListener.makeScrollListener(this);
     }
 
 }
