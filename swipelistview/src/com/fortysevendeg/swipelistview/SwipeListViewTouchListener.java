@@ -50,7 +50,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
     private static final int DISPLACE_CHOICE = 80;
 
     private int swipeMode = SwipeListView.SWIPE_MODE_BOTH;
-    private boolean swipeOpenOnLongPress = true;
+    private int longPressAction = SwipeListView.LONG_PRESS_CHOICE;
     private boolean swipeClosesAllItemsWhenListMoves = true;
 
     private int swipeFrontView = 0;
@@ -145,14 +145,29 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
                 swipeListView.onClickFrontView(downPosition);
             }
         });
-        if (swipeOpenOnLongPress) {
-            frontView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    openAnimate(downPosition);
-                    return false;
-                }
-            });
+
+
+        switch (longPressAction) {
+
+            case SwipeListView.LONG_PRESS_CHOICE:
+                frontView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        swapChoiceState(downPosition);
+                        return false;
+                    }
+                });
+                break;
+            case SwipeListView.LONG_PRESS_SWIPE_OPEN:
+                frontView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        openAnimate(downPosition);
+                        return false;
+                    }
+                });
+                break;
+
         }
     }
 
@@ -219,12 +234,12 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
     }
 
     /**
-     * Set if the user can open an item with long press on cell
+     * Set long press on cell
      *
-     * @param swipeOpenOnLongPress
+     * @param longPressAction
      */
-    public void setSwipeOpenOnLongPress(boolean swipeOpenOnLongPress) {
-        this.swipeOpenOnLongPress = swipeOpenOnLongPress;
+    public void setLongPressAction(int longPressAction) {
+        this.longPressAction = longPressAction;
     }
 
     /**
