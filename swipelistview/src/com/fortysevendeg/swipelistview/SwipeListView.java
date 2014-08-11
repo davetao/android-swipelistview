@@ -27,9 +27,9 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
-import android.widget.AbsListView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.AbsListView;
 
 import java.util.List;
 
@@ -82,18 +82,6 @@ public class SwipeListView extends QuickReturnListView {
      * No action when swiped
      */
     public final static int SWIPE_ACTION_NONE = 3;
-
-
-    /**
-     * Long press choice
-     */
-    public final static int LONG_PRESS_CHOICE = 0;
-
-    /**
-     * Long press swipe open
-     */
-
-    public final static int LONG_PRESS_SWIPE_OPEN = 1;
 
     /**
      * Default ids for front view
@@ -178,7 +166,7 @@ public class SwipeListView extends QuickReturnListView {
     private void init(AttributeSet attrs) {
 
         int swipeMode = SWIPE_MODE_BOTH;
-        int longPressAction = LONG_PRESS_CHOICE;
+        boolean swipeOpenOnLongPress = true;
         boolean swipeCloseAllItemsWhenMoveList = true;
         long swipeAnimationTime = 0;
         float swipeOffsetLeft = 0;
@@ -190,14 +178,13 @@ public class SwipeListView extends QuickReturnListView {
         int swipeActionRight = SWIPE_ACTION_REVEAL;
 
         if (attrs != null) {
-
             TypedArray styled = getContext().obtainStyledAttributes(attrs, R.styleable.SwipeListView);
             swipeMode = styled.getInt(R.styleable.SwipeListView_swipeMode, SWIPE_MODE_BOTH);
             swipeActionLeft = styled.getInt(R.styleable.SwipeListView_swipeActionLeft, SWIPE_ACTION_REVEAL);
             swipeActionRight = styled.getInt(R.styleable.SwipeListView_swipeActionRight, SWIPE_ACTION_REVEAL);
             swipeOffsetLeft = styled.getDimension(R.styleable.SwipeListView_swipeOffsetLeft, 0);
             swipeOffsetRight = styled.getDimension(R.styleable.SwipeListView_swipeOffsetRight, 0);
-            longPressAction = styled.getInt(R.styleable.SwipeListView_longPressAction, LONG_PRESS_CHOICE);
+            swipeOpenOnLongPress = styled.getBoolean(R.styleable.SwipeListView_swipeOpenOnLongPress, true);
             swipeAnimationTime = styled.getInteger(R.styleable.SwipeListView_swipeAnimationTime, 0);
             swipeCloseAllItemsWhenMoveList = styled.getBoolean(R.styleable.SwipeListView_swipeCloseAllItemsWhenMoveList, true);
             swipeDrawableChecked = styled.getResourceId(R.styleable.SwipeListView_swipeDrawableChecked, 0);
@@ -227,7 +214,7 @@ public class SwipeListView extends QuickReturnListView {
         touchListener.setSwipeActionRight(swipeActionRight);
         touchListener.setSwipeMode(swipeMode);
         touchListener.setSwipeClosesAllItemsWhenListMoves(swipeCloseAllItemsWhenMoveList);
-        touchListener.setLongPressAction(longPressAction);
+        touchListener.setSwipeOpenOnLongPress(swipeOpenOnLongPress);
         touchListener.setSwipeDrawableChecked(swipeDrawableChecked);
         touchListener.setSwipeDrawableUnchecked(swipeDrawableUnchecked);
         setOnTouchListener(touchListener);
@@ -569,12 +556,12 @@ public class SwipeListView extends QuickReturnListView {
     }
 
     /**
-     * Sets long press action an item with long pressing on cell
+     * Sets if the user can open an item with long pressing on cell
      *
-     * @param longPressAction
+     * @param swipeOpenOnLongPress
      */
-    public void setLongPressAction(int longPressAction) {
-        touchListener.setLongPressAction(longPressAction);
+    public void setSwipeOpenOnLongPress(boolean swipeOpenOnLongPress) {
+        touchListener.setSwipeOpenOnLongPress(swipeOpenOnLongPress);
     }
 
     /**
