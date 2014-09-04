@@ -647,6 +647,7 @@ public class SwipeListViewTouchListener implements View.OnTouchListener {
                         }
                     }, 500);
                 }
+                closeOpenedItems();
             }
 
             @Override
